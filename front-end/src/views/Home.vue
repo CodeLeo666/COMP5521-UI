@@ -286,6 +286,10 @@ export default {
 
     }
   },
+  // created(){
+  //
+  //   this.interval = setInterval(() => this.mineBlock(),2000);
+  // },
   methods: {
     addTx() {
       this.$refs.txFormRules.validate((valid) => {
@@ -323,20 +327,20 @@ export default {
     },
 
     mineBlock(){
-      this.$axios.get("/api/mine").then((
-        res) => {
-        console.log(res)
-        if (res.status === 200) {
-          if(this.mineData.length === 1){
-            this.mineData.pop();
+        this.$axios.get("/api/mine").then((
+          res) => {
+          console.log(res)
+          if (res.status === 200) {
+            // if(this.mineData.length === 1) {
+            //   this.mineData.pop();
+            // }
+            // this.showBlockchain();
+            this.mineData.push(res.data.block);
+            this.$message.success(res.data.message);
+          } else {
+            this.$message.error("搜索失败");
           }
-          this.mineData.push(res.data.block);
-          this.$message.success(res.data.message);
-        }
-        else{
-          this.$message.error("搜索失败");
-        }
-      })
+        })
     },
     nodeRegister(){
       this.nodeRegisterForm.nodes=this.nodeRegisterInfo
