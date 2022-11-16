@@ -5,105 +5,6 @@
         </div>
 
     <el-tabs type="border-card" style="width: 90%;margin: auto">
-      <el-tab-pane label="New Transactions">
-
-        <el-form  :model="txForm" label-width="80px" style="width: 95%;margin: auto" :rules="txFormRules" ref="txFormRules" prop="form">
-          <el-form-item label="sender" prop="Sender">
-            <el-input v-model="txForm.Sender" ></el-input>
-          </el-form-item>
-          <el-form-item label="recipient" prop="Recipient">
-            <el-input v-model="txForm.Recipient" ></el-input>
-          </el-form-item>
-          <el-form-item label="amount" prop="Amount">
-            <el-input v-model="txForm.Amount" ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="addTx">Create</el-button>
-          </el-form-item>
-        </el-form>
-
-
-      </el-tab-pane>
-
-      <el-tab-pane label="Show Blockchain">
-
-          <el-form style="width: 95%;margin: auto">
-            <el-form-item lable="search" >
-            <el-col :span="15">
-              <el-form-item label="">
-                <el-input v-model="shownode" placeholder="Please enter the node"></el-input>
-              </el-form-item>
-            </el-col>
-
-              <el-col :span="3">
-                <el-button type="primary" @click="showBlockchain">show</el-button>
-              </el-col>
-
-            </el-form-item>
-
-
-          </el-form>
-
-        <el-table
-          :data="blockChainData"
-          height="400"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="index"
-            label="index"
-           >
-          </el-table-column>
-          <el-table-column
-            prop="timestamp"
-            label="timestamp"
-            >
-          </el-table-column>
-          <el-table-column
-            prop="previous_hash"
-            label="previous_hash">
-          </el-table-column>
-          <el-table-column
-            prop="current_hash"
-            label="current_hash">
-          </el-table-column>
-          <el-table-column
-            prop="difficulty"
-            label="difficulty">
-          </el-table-column>
-
-          <el-table-column
-            prop="proof"
-            label="proof">
-          </el-table-column>
-
-          <el-table-column
-            prop="transactions"
-            label="transactions">
-          </el-table-column>
-
-        </el-table>
-
-
-
-
-
-      </el-tab-pane>
-
-      <el-tab-pane label="Add Neighbor">
-        <el-col :span="2">add:</el-col>
-        <el-col :span="8">
-            <el-input v-model="neighbor_from" placeholder="Please enter the node"></el-input>
-        </el-col>
-        <el-col :span="2">to</el-col>
-        <el-col :span="8">
-            <el-input v-model="neighbor_to" placeholder="Please enter the node"></el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-button type="primary" @click="addNeighbor">Add</el-button>
-        </el-col>
-
-        </el-tab-pane>
 
       <el-tab-pane label="Register Node">
         <el-form style="width: 95%;margin: auto">
@@ -125,8 +26,9 @@
             border
             style="width: 100%">
             <el-table-column
+              sortable
               prop="node"
-              label="total node"
+              label="total_nodes"
             >
             </el-table-column>
           </el-table>
@@ -134,7 +36,25 @@
         </el-form>
 
       </el-tab-pane>
+      <el-tab-pane label="New Transactions">
 
+        <el-form  :model="txForm" label-width="80px" style="width: 95%;margin: auto" :rules="txFormRules" ref="txFormRules" prop="form">
+          <el-form-item label="sender" prop="sender">
+            <el-input v-model="txForm.sender" ></el-input>
+          </el-form-item>
+          <el-form-item label="recipient" prop="recipient">
+            <el-input v-model="txForm.recipient" ></el-input>
+          </el-form-item>
+          <el-form-item label="amount" prop="amount">
+            <el-input v-model="txForm.amount" ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="addTx">Create</el-button>
+          </el-form-item>
+        </el-form>
+
+
+      </el-tab-pane>
 
       <el-tab-pane label="Mine">
         <el-form style="width: 95%;margin: auto">
@@ -156,8 +76,8 @@
             border
             style="width: 100%">
             <el-table-column
-              prop="index"
-              label="index"
+              prop="id"
+              label="id"
             >
             </el-table-column>
             <el-table-column
@@ -188,12 +108,88 @@
               label="transactions">
             </el-table-column>
 
+            <el-table-column
+              prop="merkle_root"
+              label="merkle_root">
+            </el-table-column>
+
           </el-table>
 
         </el-form>
 
 
       </el-tab-pane>
+
+
+
+
+      <el-tab-pane label="Show Blockchain">
+
+        <el-form style="width: 95%;margin: auto">
+          <el-form-item lable="search" >
+
+            <el-col :span="15">
+              <el-form-item label="">
+                <el-input v-model="shownode" placeholder="Please enter the node"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="3">
+              <el-button type="primary" @click="showBlockchain">show</el-button>
+            </el-col>
+
+          </el-form-item>
+
+
+        </el-form>
+
+        <el-table
+          :data="blockChainData"
+          height="400"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="id"
+            label="id"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="timestamp"
+            label="timestamp"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="previous_hash"
+            label="previous_hash">
+          </el-table-column>
+          <el-table-column
+            prop="current_hash"
+            label="current_hash">
+          </el-table-column>
+          <el-table-column
+            prop="difficulty"
+            label="difficulty">
+          </el-table-column>
+
+          <el-table-column
+            prop="proof"
+            label="proof">
+          </el-table-column>
+
+          <el-table-column
+            prop="transactions"
+            label="transactions">
+          </el-table-column>
+
+          <el-table-column
+            prop="merkle_root"
+            label="merkle_root">
+          </el-table-column>
+
+        </el-table>
+
+      </el-tab-pane>
+
 
     </el-tabs>
 
@@ -206,12 +202,13 @@ export default {
   data() {
     return {
       txForm: {
-        Sender: '',
-        Recipient: '',
-        Amount: '',
+        sender: '',
+        recipient: '',
+        amount:'',
+
       },
       txFormRules: {
-        Sender: [{
+        sender: [{
           required: true,
           message: "Please enter sender",
           trigger: "blur"
@@ -223,7 +220,7 @@ export default {
             trigger: "blur",
           },
         ],
-        Recipient: [{
+        recipient: [{
           required: true,
           message: "Please enter recipient",
           trigger: "blur"
@@ -235,7 +232,7 @@ export default {
             trigger: "blur",
           },
         ],
-        Amount: [{
+        amount: [{
           required: true,
           message: "Please enter amount",
           trigger: "blur"
@@ -253,13 +250,14 @@ export default {
 
       blockChainData: [],
       blockChainInfo:{
-        index:'',
+        id:'',
         transactions : '',
         timestamp : '',
         previous_hash : '',
         current_hash: '',
         difficulty:'',
-        proof : ''
+        proof : '',
+        merkle_root:'',
       },
 
       neighbor_from:'',
@@ -269,6 +267,7 @@ export default {
       },
 
       nodeData: [],
+      nodeDataForm:'',
       mineData:[],
 
       recordInfo:{
@@ -291,10 +290,14 @@ export default {
     addTx() {
       this.$refs.txFormRules.validate((valid) => {
         if (!valid) return;
-        this.$axios.post("/api/transactions/new", this.qs.stringify(this.txForm)).then((
+        this.$axios.post("/api/transactions/new", this.qs.stringify(this.txForm), {
+          headers:{
+            "Content-Type": "application/json;charset=utf8"
+          }
+        }).then((
           res) => {
           console.log(res)
-          if (res.data.code === 201) {
+          if (res.status === 201) {
             this.$message.success("Created successfully!"+res.data.message);
           }
           else{
@@ -308,12 +311,13 @@ export default {
       this.$axios.get("/api/getblocks").then((
         res) => {
         console.log(res)
-        if (res.data.code === 200) {
+        // this.$message.success(res.status);
+        if (res.status === 200) {
           this.$message.success(res.data.message);
           this.blockChainData = res.data.blocks;
         }
         else{
-          this.$message.error("Fail");
+           this.$message.error("Fail");
         }
       })
     },
@@ -322,8 +326,11 @@ export default {
       this.$axios.get("/api/mine").then((
         res) => {
         console.log(res)
-        if (res.data.code === 200) {
-          this.mineData = res.data;
+        if (res.status === 200) {
+          if(this.mineData.length === 1){
+            this.mineData.pop();
+          }
+          this.mineData.push(res.data.block);
           this.$message.success(res.data.message);
         }
         else{
@@ -333,10 +340,17 @@ export default {
     },
     nodeRegister(){
       this.nodeRegisterForm.nodes=this.nodeRegisterInfo
-      this.$axios.post("/nodes/register", this.qs.stringify(this.nodeRegisterForm.nodes)).then((
+      this.$axios.post("/api/nodes/register", this.qs.stringify(this.nodeRegisterForm),{
+          headers:{
+            "Content-Type": "application/json;charset=utf8"
+          }
+        }
+      ).then((
       res) => {
         console.log(res)
-        if (res.data.code === 200 ) {
+        // console.log(22)
+        this.$message.success(res.data.total_nodes)
+        if (res.status === 201 ) {
           this.nodeData = res.data.total_nodes;
         }
         else{
@@ -344,19 +358,24 @@ export default {
         }}
       )
     },
-    addNeighbor(){
-      this.neighborForm.node = this.neighbor_from;
-      this.$axios.post("/nodes/register", this.qs.stringify(this.neighborForm)).then((
-        res) => {
-        console.log(res)
-        if (res.data.code === 200 ) {
-          this.$message.success(res.data.message);
-        }
-        else{
-          this.$message.error("fail");
-        }}
-      )
-    }
+    // addNeighbor(){
+    //   this.neighborForm.node = this.neighbor_from;
+    //   this.$axios.post("/api/afddneighbor", this.qs.stringify(this.neighborForm), {
+    //       headers: {
+    //         "Content-Type": "application/json;charset=utf8"
+    //       }
+    //     }
+    //   ).then((
+    //     res) => {
+    //     console.log(res)
+    //     if (res.data.code === 200 ) {
+    //       this.$message.success(res.data.message);
+    //     }
+    //     else{
+    //       this.$message.error("fail");
+    //     }}
+    //   )
+    // }
   }
 }
 
